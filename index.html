@@ -10,46 +10,58 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>Gym Registro</h1>
-    <p>Entrenamientos, pesos y repeticiones</p>
+  <header class="appHeader">
+    <div>
+      <p class="eyebrow">Mi entrenamiento</p>
+      <h1>Gym Registro</h1>
+      <p class="subtitle">Pesos, series y repeticiones</p>
+    </div>
   </header>
 
   <main>
-    <nav class="tabs">
-      <button class="tab active" data-tab="nuevo">Nuevo</button>
+    <nav class="tabs" aria-label="Secciones">
+      <button class="tab active" data-tab="nuevo">Cargar</button>
       <button class="tab" data-tab="historial">Historial</button>
       <button class="tab" data-tab="progreso">Progreso</button>
     </nav>
 
     <section id="nuevo" class="panel active">
-      <form id="entryForm">
+      <form id="entryForm" class="sheet">
         <input type="hidden" id="editId">
+
         <label>Fecha
           <input type="date" id="fecha" required>
         </label>
+
         <label>Ejercicio
-          <input type="text" id="ejercicio" placeholder="Ej: Press banca" required list="ejerciciosList">
-          <datalist id="ejerciciosList"></datalist>
+          <select id="ejercicioSelect" required></select>
         </label>
+
+        <label id="nuevoEjercicioBox" class="hidden">Nuevo ejercicio
+          <input type="text" id="nuevoEjercicio" placeholder="Ej: Curl martillo">
+        </label>
+
         <div class="row">
           <label>Series
-            <input type="number" id="series" min="1" step="1" placeholder="4" required>
+            <input type="number" id="series" min="1" step="1" inputmode="numeric" placeholder="4" required>
           </label>
           <label>Reps
-            <input type="number" id="reps" min="1" step="1" placeholder="8" required>
+            <input type="number" id="reps" min="1" step="1" inputmode="numeric" placeholder="8" required>
           </label>
         </div>
+
         <label>Peso usado
           <div class="pesoBox">
-            <input type="number" id="peso" min="0" step="0.5" placeholder="50" required>
+            <input type="number" id="peso" min="0" step="0.5" inputmode="decimal" placeholder="50" required>
             <span>kg</span>
           </div>
         </label>
+
         <label>Observaciones
           <textarea id="obs" rows="3" placeholder="Ej: llegué exigido, fácil, dolor, etc."></textarea>
         </label>
-        <button type="submit" id="saveBtn">Guardar ejercicio</button>
+
+        <button type="submit" id="saveBtn" class="primaryBtn">Guardar ejercicio</button>
         <button type="button" id="cancelEdit" class="secondary hidden">Cancelar edición</button>
       </form>
     </section>
@@ -63,9 +75,11 @@
     </section>
 
     <section id="progreso" class="panel">
-      <label>Elegí ejercicio
-        <select id="progressExercise"></select>
-      </label>
+      <div class="sheet compact">
+        <label>Elegí ejercicio
+          <select id="progressExercise"></select>
+        </label>
+      </div>
       <div id="progressBox" class="cards"></div>
     </section>
   </main>
