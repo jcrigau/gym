@@ -1,26 +1,93 @@
 <!doctype html>
-<html lang="es"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GymLog Pro</title>
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="styles.css">
-</head><body>
-<header><h1>💪 GymLog Pro</h1></header>
-<main>
-<section class="card">
-<h2>Nuevo entrenamiento</h2>
-<label>Ejercicio</label>
-<div class="row">
-<input id="search" placeholder="Buscar ejercicio...">
-<button id="addBtn">＋ Nuevo</button>
-</div>
-<select id="exercise" size="8"></select>
-<label>Peso (kg)</label><input id="peso" type="number" step="0.5">
-<label>Series</label><input id="series" type="number" value="4">
-<label>Repeticiones</label><input id="reps" type="number" value="8">
-<button id="save">Guardar entrenamiento</button>
-</section>
-<section class="card"><h2>Historial</h2><div id="hist"></div></section>
-</main>
-<script src="app.js"></script>
-</body></html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111827" />
+  <title>Gym Registro</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="appHeader">
+    <div>
+      <p class="eyebrow">Mi entrenamiento</p>
+      <h1>Gym Registro</h1>
+      <p class="subtitle">Pesos, series y repeticiones</p>
+    </div>
+  </header>
+
+  <main>
+    <nav class="tabs" aria-label="Secciones">
+      <button class="tab active" data-tab="nuevo">Cargar</button>
+      <button class="tab" data-tab="historial">Historial</button>
+      <button class="tab" data-tab="progreso">Progreso</button>
+    </nav>
+
+    <section id="nuevo" class="panel active">
+      <form id="entryForm" class="sheet">
+        <input type="hidden" id="editId">
+
+        <label>Fecha
+          <input type="date" id="fecha" required>
+        </label>
+
+        <label>Ejercicio
+          <select id="ejercicioSelect" required></select>
+        </label>
+
+        <label id="nuevoEjercicioBox" class="hidden">Nuevo ejercicio
+          <input type="text" id="nuevoEjercicio" placeholder="Ej: Curl martillo">
+        </label>
+
+        <div class="row">
+          <label>Series
+            <input type="number" id="series" min="1" step="1" inputmode="numeric" placeholder="4" required>
+          </label>
+          <label>Reps
+            <input type="number" id="reps" min="1" step="1" inputmode="numeric" placeholder="8" required>
+          </label>
+        </div>
+
+        <label>Peso usado
+          <div class="pesoBox">
+            <input type="number" id="peso" min="0" step="0.5" inputmode="decimal" placeholder="50" required>
+            <span>kg</span>
+          </div>
+        </label>
+
+        <label>Observaciones
+          <textarea id="obs" rows="3" placeholder="Ej: llegué exigido, fácil, dolor, etc."></textarea>
+        </label>
+
+        <button type="submit" id="saveBtn" class="primaryBtn">Guardar ejercicio</button>
+        <button type="button" id="cancelEdit" class="secondary hidden">Cancelar edición</button>
+      </form>
+    </section>
+
+    <section id="historial" class="panel">
+      <div class="toolbar">
+        <input type="search" id="search" placeholder="Buscar ejercicio...">
+        <button id="exportBtn" class="secondary">Exportar</button>
+      </div>
+      <div id="historyList" class="cards"></div>
+    </section>
+
+    <section id="progreso" class="panel">
+      <div class="sheet compact">
+        <label>Elegí ejercicio
+          <select id="progressExercise"></select>
+        </label>
+      </div>
+      <div id="progressBox" class="cards"></div>
+    </section>
+  </main>
+
+  <footer>
+    <small>Los datos quedan guardados en este teléfono.</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
