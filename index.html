@@ -1,178 +1,26 @@
 <!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#111827" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Gym" />
-  <title>Gym Registro</title>
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="apple-touch-icon" href="./assets/icon-192.png" />
-  <link rel="stylesheet" href="./styles.css" />
-</head>
-<body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div>
-        <p class="eyebrow">Registro personal</p>
-        <h1>Gym</h1>
-      </div>
-      <button id="installBtn" class="ghost-btn hidden" type="button">Instalar</button>
-    </header>
-
-    <section class="hero-card" aria-label="Resumen">
-      <div>
-        <p class="muted">Último entrenamiento</p>
-        <strong id="lastWorkoutText">Todavía no cargaste registros</strong>
-      </div>
-      <div class="hero-grid">
-        <div>
-          <span id="totalSessions">0</span>
-          <small>días</small>
-        </div>
-        <div>
-          <span id="totalSets">0</span>
-          <small>series</small>
-        </div>
-      </div>
-    </section>
-
-    <main>
-      <section id="screen-log" class="screen active" aria-label="Cargar entrenamiento">
-        <div class="section-title">
-          <h2 id="formTitle">Cargar ejercicio</h2>
-          <button id="clearFormBtn" type="button" class="text-btn">Limpiar</button>
-        </div>
-
-        <form id="workoutForm" class="card form-card" autocomplete="off">
-          <input type="hidden" id="editId" />
-
-          <label>
-            <span>Fecha</span>
-            <input id="date" type="date" required />
-          </label>
-
-          <label>
-            <span>Ejercicio</span>
-            <select id="exercise" required></select>
-          </label>
-
-          <label id="customExerciseWrap" class="hidden">
-            <span>Nuevo ejercicio</span>
-            <input id="customExercise" type="text" placeholder="Ej: Hack squat" />
-          </label>
-
-          <div class="triple-grid">
-            <label>
-              <span>Series</span>
-              <input id="sets" type="number" min="1" max="20" step="1" inputmode="numeric" placeholder="4" required />
-            </label>
-            <label>
-              <span>Reps</span>
-              <input id="reps" type="number" min="1" max="100" step="1" inputmode="numeric" placeholder="8" required />
-            </label>
-            <label>
-              <span>Peso kg</span>
-              <input id="weight" type="number" min="0" max="1000" step="0.5" inputmode="decimal" placeholder="50" required />
-            </label>
-          </div>
-
-          <label>
-            <span>Notas <em>opcional</em></span>
-            <textarea id="notes" rows="3" placeholder="Ej: llegué exigido, subir 2,5 kg la próxima"></textarea>
-          </label>
-
-          <button class="primary-btn" id="saveBtn" type="submit">Guardar ejercicio</button>
-        </form>
-
-        <div class="quick-card">
-          <h3>Accesos rápidos</h3>
-          <div id="quickExercises" class="chip-row"></div>
-        </div>
-      </section>
-
-      <section id="screen-history" class="screen" aria-label="Historial">
-        <div class="section-title">
-          <h2>Historial</h2>
-          <button id="exportCsvBtn" type="button" class="text-btn">CSV</button>
-        </div>
-
-        <div class="toolbar">
-          <input id="searchInput" type="search" placeholder="Buscar ejercicio..." />
-          <button id="todayFilterBtn" type="button" class="ghost-btn">Hoy</button>
-        </div>
-
-        <div id="historyList" class="history-list"></div>
-        <p id="emptyHistory" class="empty-state hidden">Todavía no hay registros. Cargá tu primer ejercicio.</p>
-      </section>
-
-      <section id="screen-progress" class="screen" aria-label="Progreso">
-        <div class="section-title">
-          <h2>Progreso</h2>
-        </div>
-
-        <div class="card progress-card">
-          <label>
-            <span>Ver ejercicio</span>
-            <select id="progressExercise"></select>
-          </label>
-
-          <div class="stats-grid">
-            <div>
-              <small>Último peso</small>
-              <strong id="statLast">—</strong>
-            </div>
-            <div>
-              <small>Mejor peso</small>
-              <strong id="statBest">—</strong>
-            </div>
-            <div>
-              <small>Registros</small>
-              <strong id="statCount">—</strong>
-            </div>
-            <div>
-              <small>Volumen total</small>
-              <strong id="statVolume">—</strong>
-            </div>
-          </div>
-
-          <canvas id="progressChart" height="180" aria-label="Gráfico de progreso"></canvas>
-          <div id="progressRows" class="progress-rows"></div>
-        </div>
-
-        <div class="card backup-card">
-          <h3>Copia de seguridad</h3>
-          <p>Los datos quedan guardados en este teléfono. Exportalos antes de cambiar de equipo o borrar Safari.</p>
-          <div class="backup-actions">
-            <button id="exportJsonBtn" class="ghost-btn" type="button">Exportar backup</button>
-            <label class="ghost-btn file-btn">
-              Importar backup
-              <input id="importJsonInput" type="file" accept="application/json" hidden />
-            </label>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <nav class="bottom-nav" aria-label="Navegación principal">
-      <button class="nav-btn active" data-screen="log" type="button">
-        <span>＋</span>
-        Cargar
-      </button>
-      <button class="nav-btn" data-screen="history" type="button">
-        <span>☰</span>
-        Historial
-      </button>
-      <button class="nav-btn" data-screen="progress" type="button">
-        <span>↗</span>
-        Progreso
-      </button>
-    </nav>
-  </div>
-
-  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
-  <script src="./app.js" defer></script>
-</body>
-</html>
+<html lang="es"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GymLog Pro</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<header><h1>💪 GymLog Pro</h1></header>
+<main>
+<section class="card">
+<h2>Nuevo entrenamiento</h2>
+<label>Ejercicio</label>
+<div class="row">
+<input id="search" placeholder="Buscar ejercicio...">
+<button id="addBtn">＋ Nuevo</button>
+</div>
+<select id="exercise" size="8"></select>
+<label>Peso (kg)</label><input id="peso" type="number" step="0.5">
+<label>Series</label><input id="series" type="number" value="4">
+<label>Repeticiones</label><input id="reps" type="number" value="8">
+<button id="save">Guardar entrenamiento</button>
+</section>
+<section class="card"><h2>Historial</h2><div id="hist"></div></section>
+</main>
+<script src="app.js"></script>
+</body></html>
